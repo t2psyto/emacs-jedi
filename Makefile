@@ -50,14 +50,13 @@ clean-elpa:
 	rm -rf elpa
 
 requirements: env
-	${PIP_INSTALL} --requirement requirements.txt
 
 install-jedi-dev:
 	${PIP_INSTALL} --upgrade ${JEDI_DEV_URL}
 
 env: $(ENV)/bin/activate
-$(ENV)/bin/activate:
-	$(VIRTUALENV) $(ENV)
+$(ENV)/bin/activate: elpa
+	${VIRTUAL_EMACS} -Q -batch -l jedi.el -f "jedi:make-env-block"
 
 clean-env:
 	rm -rf $(ENV)
